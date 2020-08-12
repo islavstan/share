@@ -29,6 +29,7 @@ class Share {
   ///
   /// May throw [PlatformException] or [FormatException]
   /// from [MethodChannel].
+  /// Stas version
   static Future<void> share(
     String text, {
     String subject,

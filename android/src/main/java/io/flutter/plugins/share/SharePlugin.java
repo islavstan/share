@@ -5,6 +5,8 @@
 package io.flutter.plugins.share;
 
 import android.app.Activity;
+import android.util.Log;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -22,32 +24,33 @@ public class SharePlugin implements FlutterPlugin, ActivityAware {
   private Activity activity;
 
   public static void registerWith(Registrar registrar) {
+    Log.d("stas", "registerWith");
     SharePlugin plugin = new SharePlugin();
     plugin.setUpChannel(registrar.activity(), registrar.messenger());
   }
 
   @Override
   public void onAttachedToEngine(FlutterPluginBinding binding) {
+    Log.d("stas", "onAttachedToEngine");
     setUpChannel(activity, binding.getBinaryMessenger());
   }
 
   @Override
   public void onDetachedFromEngine(FlutterPluginBinding binding) {
-    methodChannel.setMethodCallHandler(null);
-    methodChannel = null;
-    share = null;
-    activity = null;
+
   }
 
   @Override
   public void onAttachedToActivity(ActivityPluginBinding binding) {
+    Log.d("stas", "onAttachedToActivity");
+
     activity = binding.getActivity();
     share.setActivity(binding.getActivity());
   }
 
   @Override
   public void onDetachedFromActivity() {
-    tearDownChannel();
+
   }
 
   @Override
@@ -61,6 +64,8 @@ public class SharePlugin implements FlutterPlugin, ActivityAware {
   }
 
   private void setUpChannel(Activity activity, BinaryMessenger messenger) {
+    Log.d("stas", "setUpChannel");
+
     methodChannel = new MethodChannel(messenger, CHANNEL);
     share = new Share(activity);
     handler = new MethodCallHandler(share);
